@@ -15,7 +15,7 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
-    wireframes: true,
+    wireframes: false,
     width,
     height
   }
@@ -128,7 +128,10 @@ horizontals.forEach((row, rowIndex) => {
         10,
         {
           label: 'wall',
-          isStatic: true
+          isStatic: true,
+          render: {
+            fillStyle: 'white'
+          }
         }
       );
       World.add(world, wall);
@@ -148,7 +151,10 @@ horizontals.forEach((row, rowIndex) => {
         unitLengthY,
         {
           label: 'wall',
-          isStatic: true
+          isStatic: true,
+          render: {
+            fillStyle: 'white'
+          }
         }
       );
       World.add(world, wall);
@@ -162,7 +168,10 @@ const goal = Bodies.rectangle(
   unitLengthY * 0.7,
   {
     label: 'goal',
-    isStatic: true
+    isStatic: true,
+    render: {
+      fillStyle: 'green'
+    }
   }
 );
 World.add(world, goal);
@@ -205,6 +214,7 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.label)
     ) {
+      document.querySelector('.winner').classList.remove('hidden');
       world.gravity.y = 1;
       world.bodies.forEach(body => {
         if (body.label === 'wall') {
